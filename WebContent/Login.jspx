@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:f="http://java.sun.com/jsp/jstl/fmt" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=UTF-8" 
+		pageEncoding="UTF-8" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Login</title>
+</head>
+<body>
+<c:choose>
+  <c:when test = "${loggedIn eq true}">
+    Successfully logged in as ${username}.
+    <a href = "Home">Press here to go home.</a>
+  </c:when>
+  <c:when test = "${attempt eq null}">
+    <form name="form" action="Login" method="GET" class="form">
+    Username: <input id = "username" name = "username" type = "text"/> 
+    Password: <input id = "password" name = "password" type = "text"/>
+    <input type = "submit" id = "submit" name = "attempt" value = "Login"/>
+    </form>
+  </c:when>
+  <c:otherwise>
+    <form name="form" action="Login" method="GET" class="form">
+    Invalid login attempt.
+    Please try again, or <a href = "Register">Register</a>
+    <label for = "username" id = "userLabel">Username: </label><input id = "username" name = "username" type = "text"/> 
+    <label for = "password" id = "passLabel">Password: </label><input id = "password" name = "password" type = "text"/> 
+    <input type = "submit" id = "submit" name = "attempt" value = "Login"/>
+    </form>
+  </c:otherwise>
+</c:choose>
+</body>
+</html>
+</jsp:root>
