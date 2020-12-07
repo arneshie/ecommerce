@@ -24,7 +24,8 @@ public class Sys {
 //			e.printStackTrace();
 //		}
 //	}
-
+	
+	//Singleton instance
 	private static Sys instance;
 	private BookDAO bookData;
 	private UserDAO userData;
@@ -52,7 +53,8 @@ public class Sys {
 	private Sys() {
 
 	}
-
+	
+	//rest functions
 	public HashMap<Book, Integer> retrieveRestBook(String bid) {
 		HashMap<Book, Integer> rv = new HashMap<Book, Integer>();
 		try {
@@ -63,10 +65,12 @@ public class Sys {
 		}
 		return rv;
 	}
+	
+	//Provide servlet with access to database through DAO
 	 public int retrievePrice(String s) throws SQLException {
 	        return bookData.retrievePrice(s);
 	    }
-
+	
 	public HashMap<Book, Integer> retrieveBooks() {
 		System.out.println("retrieving books...");
 		HashMap<Book, Integer> rv = new HashMap<Book, Integer>();
@@ -103,7 +107,8 @@ public class Sys {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//getters
 	public HashMap<Integer, User> getUsers() throws Exception {	
 		HashMap<Integer, User> rv = new HashMap<>();
 		try {
