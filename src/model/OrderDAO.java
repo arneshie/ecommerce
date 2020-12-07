@@ -16,7 +16,7 @@ import bean.Book;
 import bean.Order;
 import bean.User;
 
-
+//DAO Class for Order Table
 public class OrderDAO {		
 		DataSource ds;
 
