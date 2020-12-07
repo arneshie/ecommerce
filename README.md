@@ -10,4 +10,4 @@ To run the application:
 3.Run 'SYS.java' from the ctrl package.
 
 
-The database is running on the cloud and does not require any installation.
+The database is running on the cloud and does not require any installation. Schema has already been run, but included with project for the grader's benefit.
