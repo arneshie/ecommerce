@@ -16,7 +16,8 @@ import bean.User;
 public class UserDAO {
 	
 	DataSource ds;
-
+	
+	//USER DAO class
 	public UserDAO() {
 		try {
 			ds = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
