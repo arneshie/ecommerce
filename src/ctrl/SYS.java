@@ -39,12 +39,13 @@ public class SYS extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		ServletContext context = this.getServletContext();
+		//Singleton implementation
 		Sys mSys = null;
 		try {
 			mSys = Sys.getInstance();
 		} catch (ClassNotFoundException e){
 			e.printStackTrace();
-	}
+	}	//context variables initialization
 		context.setAttribute("modelSYS", mSys);	
 		context.setAttribute("loggedIn", null);	
 		context.setAttribute("numpayments", 0);
@@ -65,7 +66,7 @@ public class SYS extends HttpServlet {
 		HashMap<Book, Integer> retrievedCat = new HashMap<Book, Integer>();
 		hs.setAttribute("registerAttempt", null);
 		
-
+		//Handle category display via EL and JSPX session variables
 		if (path.contains("Item")) {
 			target = "/Category.jspx";
 			String category = request.getParameter("cat");
@@ -76,6 +77,7 @@ public class SYS extends HttpServlet {
 			System.out.println("Category selected: " + category);
 			request.getRequestDispatcher(target).forward(request, response);
 		}
+		//Logout sets session attributes to null, equivalent of fresh session for our implementation
 		else if (path.contains("Logout")) {
 			hs.setAttribute("username", null);
 			hs.setAttribute("loggedIn", null);
@@ -84,6 +86,7 @@ public class SYS extends HttpServlet {
 			target = "/Form.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
 		}
+		//Login to the system.
 		else if (path.contains("Login")){
 			if (!(request.getParameter("attempt") == null)) {
 				String username = request.getParameter("username");
@@ -95,12 +98,14 @@ public class SYS extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				//Ensure this combination of username and password is registered
 				User u = null;
 				for (int i: users.keySet()) {
 					if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
 						u = users.get(i);
 					}
 				}
+				//if the user is registered, set session variables to indiace a successful login
 				if (!(u == null)) {
 					hs.setAttribute("loggedIn", true);
 					hs.setAttribute("username", u.getUsername());
@@ -112,15 +117,19 @@ public class SYS extends HttpServlet {
 						e.printStackTrace();
 					}
 				}
+				//failed login sets attempt, provides error message in Login.jspx
 				hs.setAttribute("attempt", "attempted");
 				target = "/Login.jspx";
 				request.getRequestDispatcher(target).forward(request, response);
 			}
+			//forward request
 			target = "/Login.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
 		}
+		//Similar to login, session variables change the content of Register.jspx
 		else if (path.contains("Register")) {
 			if (hs.getAttribute("attemptRegister") != null) {
+				//debug
 				System.out.println("reached");
 				String username = request.getParameter("u_name");
 				String pword = request.getParameter("pwrd");
@@ -135,6 +144,7 @@ public class SYS extends HttpServlet {
 				if (usernames.contains(username)) {
 					request.getSession().setAttribute("registerError", "true");
 				}
+				//Update user table via DAO access from singleton model
 				else {
 					try {
 						model.addUser(new User(username, pword, address));
@@ -160,12 +170,15 @@ public class SYS extends HttpServlet {
 				request.getRequestDispatcher(target).forward(request, response);
 			}
 		}
+		//adding to cart
 		else if (path.contains("AddCart")) {
+			//user must be logged in, request them to log in if they are not.
 			if(hs.getAttribute("loggedIn") == null) {
 				target = "/Login.jspx";
 				request.getRequestDispatcher(target).forward(request, response);
 			}
 			else {
+			//find which books were selected in the form by comparing their quantity selected and ensuring its non-zero.
 			Map<String, String[]> params = request.getParameterMap();
 			ArrayList<String> titles = new ArrayList<>();
 			for (String s: params.keySet()) {
@@ -175,11 +188,13 @@ public class SYS extends HttpServlet {
 					}
 				}
 			} 
+			//ensure the quantity of the book requested exists.
 			HashMap<Book, Integer> cat = model.retrieveBooks();
 			for (Book b: cat.keySet()) {
 				System.out.println(b.getTitle());
 				if (titles.contains(b.getTitle())){
 					try {
+						//complete the adding to cart process by updating table via DAO + model.
 						model.addCart(b.getTitle(), (String) hs.getAttribute("username"), Integer.parseInt(params.get(b.getTitle())[0]));
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
@@ -193,6 +208,7 @@ public class SYS extends HttpServlet {
 					}
 				}
 			}
+			//Update user's cart on the session scope, to display when they press view cart.
 			try {
 				hs.setAttribute("cart", model.retrieveCart((String) hs.getAttribute("username")));
 				System.out.println(hs.getAttribute("cart"));
@@ -204,11 +220,13 @@ public class SYS extends HttpServlet {
 			request.getRequestDispatcher(target).forward(request, response);
 		}
 		}
+		//Remove is mirror of add, except servlet handles forwarding to payment page if button is pressed. (Using same form, simpler xhtml/jspx)
 		else if (path.contains("RemoveCart")) {
 			if(hs.getAttribute("loggedIn") == null) {
 				target = "/Login.jspx";
 				request.getRequestDispatcher(target).forward(request, response);
 			}
+			//Forward to checkout, if pay button is pressed
 			else if (!(request.getParameter("checkout") == null)) {
 				target = "/Checkout.jspx";
 				request.getRequestDispatcher(target).forward(request, response);
@@ -256,6 +274,7 @@ public class SYS extends HttpServlet {
 
 		}
 		}
+		//Display the cart
 		else if (path.contains("ViewCart")) {
 //            if (hs.getAttribute("loggedIn") != null) {
 //            target = "/Cart.jspx";
@@ -291,11 +310,12 @@ public class SYS extends HttpServlet {
 				}
 				request.getRequestDispatcher(target).forward(request, response);
 				}
-		
+		//Payment
 		else if (path.contains("Pay")) {
 			hs.setAttribute("attemptedPayment", "attempt");
 			int num = (int) sc.getAttribute("numpayments");
 			num++;
+			//HARD CODE AS REQUESTED: EVERY 3rd PAYMENT FAILS
 			if (num % 3 == 0) {
 				hs.setAttribute("valid", null);
 				hs.setAttribute("attemptedPayment", null);
@@ -308,6 +328,7 @@ public class SYS extends HttpServlet {
 			target = "/Checkout.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
 		}
+		//Default, home page, display catalog w/no filter
 		else {
 		bookCat = model.retrieveBooks();
 		hs.setAttribute("bookCat", bookCat);
