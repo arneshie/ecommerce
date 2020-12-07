@@ -38,13 +38,19 @@
 			</nav>
 	<h1 class="text-center display-1">${username}'s Cart</h1><br></br>
 	<form name = "cartForm" action = "RemoveCart" method ="GET">
+	<ul class="list-group">
 	<c:forEach var="entry" items="${cart}">
-  		<c:out value="${entry.key} "/>. Amount: ${entry.value}. Quantity to remove: 
-  		<input type = "number" id = "${entry.key}" name = "${entry.key}" min = "1" value  = "1"> </input> <br></br> 
+  		<li class="list-group-item"><c:out value="${entry.key} "/></li>
+  		<li class="list-group-item">Amount: ${entry.value}</li>
+  		<li class="list-group-item">  Quantity to remove: 
+  		<input type = "number" id = "${entry.key}" name = "${entry.key}" min = "1" value  = "1"> </input></li> <br></br> 
 	</c:forEach>
+	</ul>
 	<br></br> 
+	<div class="text-center">
 	<input type = "submit" id = "submit" name = "cart" value = "Remove from Cart"> </input>
 	<input type = "submit" id = "checkout" name = "checkout" value = "Checkout"> </input>
+	</div>
 	</form>
 	Total = ${subtotal}
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
