@@ -10,10 +10,33 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous"></link>
+<link rel="StyleSheet"
+	href="${pageContext.request.contextPath}/res/mc.css" type="text/css"
+	title="cse4413" media="screen, print" />
 <title>${username}'s Cart</title>
 </head>
 <body>
-	${username}'s Cart<br></br>
+<nav class="navbar navbar-dark navbar-expand-sm ">
+				<div class="container">
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#Navbar">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="Navbar">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item "><a class="nav-link" href="Form">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="Login">Login</a></li>
+							<li class="nav-item"><a class="nav-link" href="Register">Register</a></li>
+							<li class="nav-item active"><a class="nav-link" href="Cart">Cart</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+	<h1 class="text-center display-1">${username}'s Cart</h1><br></br>
 	<form name = "cartForm" action = "RemoveCart" method ="GET">
 	<c:forEach var="entry" items="${cart}">
   		<c:out value="${entry.key} "/>. Amount: ${entry.value}. Quantity to remove: 
@@ -23,6 +46,18 @@
 	<input type = "submit" id = "submit" name = "cart" value = "Remove from Cart"> </input>
 	<input type = "submit" id = "checkout" name = "checkout" value = "Checkout"> </input>
 	</form>
+	Total = ${subtotal}
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 </body>
 </html>
 </jsp:root>

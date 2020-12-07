@@ -41,7 +41,7 @@ public class BookDAO {
 			String bid = r1.getString("BID");
 			String category = r1.getString("CATEGORY");
 			String title = r1.getString("TITLE");
-//			r2 = stmt.executeQuery("select sid from ENROLLMENT where cid = '"+cid+"'");
+			
 			rv.put(new Book(category,  title), i);
 			i++;
 		}
@@ -50,6 +50,21 @@ public class BookDAO {
 		con.close();
 		return rv;
 	}
+	
+	 public int retrievePrice(String s) throws SQLException{
+	        Connection con = this.ds.getConnection();
+	        int price = 0;
+	        PreparedStatement p = con.prepareStatement("Select * from book where title like ?");
+	        p.setString(1, s);
+	        ResultSet r = p.executeQuery();
+	        while (r.next()) {
+				 price = r.getInt("price");
+			}
+	        r.close();
+			p.close();
+			con.close();
+			return price;
+	    }
 	
 	public HashMap<Book, Integer> retrieveProductInfo(String bid) throws SQLException {
 		HashMap<Book, Integer> rv = new HashMap<Book, Integer>();
@@ -61,6 +76,7 @@ public class BookDAO {
 			String bookId = r.getString("BID");
 			String cat = r.getString("CATEGORY");
 			String title = r.getString("TITLE");
+		
 			rv.put(new Book(cat, title), 1);
 		}
 		r.close();
@@ -84,7 +100,7 @@ public class BookDAO {
 			String bid = r.getString("BID");
 			String cat = r.getString("CATEGORY");
 			String title = r.getString("TITLE");
-			rv.put(new Book(cat,  title), i);
+			rv.put(new Book(cat, title), i);
 			i++;
 		}
 		r.close();

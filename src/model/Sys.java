@@ -63,6 +63,9 @@ public class Sys {
 		}
 		return rv;
 	}
+	 public int retrievePrice(String s) throws SQLException {
+	        return bookData.retrievePrice(s);
+	    }
 
 	public HashMap<Book, Integer> retrieveBooks() {
 		System.out.println("retrieving books...");

@@ -63,7 +63,9 @@ public class SYS extends HttpServlet {
 		Sys model = (Sys) sc.getAttribute("modelSYS");
 		HashMap<Book, Integer> bookCat = new HashMap<Book, Integer>();
 		HashMap<Book, Integer> retrievedCat = new HashMap<Book, Integer>();
+		hs.setAttribute("registerAttempt", null);
 		
+
 		if (path.contains("Item")) {
 			target = "/Category.jspx";
 			String category = request.getParameter("cat");
@@ -255,14 +257,41 @@ public class SYS extends HttpServlet {
 		}
 		}
 		else if (path.contains("ViewCart")) {
-			if (hs.getAttribute("loggedIn") != null) {
-			target = "/Cart.jspx";
-			}
-			else {
+//            if (hs.getAttribute("loggedIn") != null) {
+//            target = "/Cart.jspx";
+//            HashMap<String, Integer> cart = null;
+//            try {
+//                cart = model.retrieveCart((String)hs.getAttribute("username"));
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            if (cart != null) {
+//                int price = 0;
+//                for (String s:cart.keySet()) {
+//                    try {
+//                        price += model.retrievePrice(s);
+//                    } catch (SQLException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//                hs.setAttribute("subtotal", price);
+//            }
+//            }
+//            else {
+//                target = "/Login.jspx";
+//            }
+			
+				if (hs.getAttribute("loggedIn") != null) {
+				    target = "/Cart.jspx";
+				}
+				else {
 				target = "/Login.jspx";
-			}
-			request.getRequestDispatcher(target).forward(request, response);
-		}
+				}
+				request.getRequestDispatcher(target).forward(request, response);
+				}
+		
 		else if (path.contains("Pay")) {
 			hs.setAttribute("attemptedPayment", "attempt");
 			int num = (int) sc.getAttribute("numpayments");

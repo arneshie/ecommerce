@@ -3,47 +3,131 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsp/jstl/fmt" version="2.0">
-	<jsp:directive.page contentType="text/html; charset=UTF-8" 
-		pageEncoding="UTF-8" session="true"/>
+	<jsp:directive.page contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8" session="true" />
 	<jsp:output doctype-root-element="html"
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 		omit-xml-declaration="true" />
-<html xmlns="http://www.w3.org/1999/xhtml">
+	<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous"></link>
+<link rel="StyleSheet"
+	href="${pageContext.request.contextPath}/res/mc.css" type="text/css"
+	title="cse4413" media="screen, print" />
 <title>Register</title>
 </head>
 <body>
-<c:choose>
-  <c:when test = "${loggedIn eq true}">
+	<nav class="navbar navbar-dark navbar-expand-sm ">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#Navbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="Navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="Form">Home</a></li>
+					<li class="nav-item "><a class="nav-link" href="Login">Login</a></li>
+					<li class="nav-item active"><a class="nav-link"
+						href="Register">Register</a></li>
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<c:choose>
+		<c:when test="${loggedIn eq true}">
     Successfully logged in as ${username}.
-    <a href = "Home">Press here to go home.</a>
-  </c:when>
-  <c:when test = "${attemptRegister eq null}">
-    <form name="form" action="Register" method="GET" class="form">
-    Register an Account: <br></br>
-    Username: <input id = "u_name" name = "u_name" type = "text"/> <br></br>
-    Password: <input id = "pwrd" name = "pwrd" type = "text"/><br></br>
-    <label for = "address" id = "addressLabel">Address: </label><input id = "address" name = "address" type = "text"/> <br></br>
-    <input type = "submit" id = "submit" name = "attemptRegister" value = "Register"/>
-    <c:set var = "attemptRegister" scope = "session" value = "true"/>
-    </form>
-  </c:when>
-    <c:when test = "${registerError eq null}">
+    <a href="Home">Press here to go home.</a>
+		</c:when>
+		<c:when test="${attemptRegister eq null}">
+			<div id="logreg-forms">
+				<form name="form" action="Register" method="GET" class="form-signin">
+					<h1 class="h3 mb-3 font-weight-normal" style="text-align: center">
+						Register</h1>
+
+					<input type="text" name="u_name" id="username"
+						class="form-control" placeholder="Username" required=""
+						autofocus="" /> <input type="password" name="pwrd" id="pwrd"
+						class="form-control" placeholder="Password" required="" />
+						
+					<input class="form-control" type="test" placeholder="Address" id = "address" name = "address"/> 
+
+					<button class="btn btn-success btn-block" type="submit" id="submit"
+						name="attemptRegister" value="Register">Register</button>
+					<c:set var="attemptRegister" scope="session" value="true" />
+				</form>
+
+			</div>
+		</c:when>
+		<c:when test="${registerError eq null}">
 	Succesfully registered as ${username}. 
-	<a href = "Home">Press here to go home.</a>
-  </c:when>
-  <c:otherwise>
-    <form name="form" action="Register" method="GET" class="form">
-    Invalid Registration attempt.
-    Please try again, or go <a href = "Home">Home</a><br></br>
-    <label for = "u_name" id = "userLabel">Username: </label><input id = "u_name" name = "u_name" type = "text"/> <br></br>
-    <label for = "pwrd" id = "passLabel">Password: </label><input id = "pwrd" name = "pwrd" type = "text"/> <br></br>
-    <label for = "address" id = "addressLabel">Address: </label><input id = "address" name = "address" type = "text"/> <br></br>
-    <input type = "submit" id = "submit" name = "attemptRegister" value = "Register"/><br></br>
-    </form>
-  </c:otherwise>
-</c:choose>
+	<a href="Home">Press here to go home.</a>
+		</c:when>
+		<c:otherwise>
+		<div id="logreg-forms">
+				<form name="form" action="Register" method="GET" class="form-signin">
+				Invalid Registration attempt. Please try again, or go <a href="Home">Home</a><br></br>
+					<h1 class="h3 mb-3 font-weight-normal" style="text-align: center">
+						Register</h1>
+
+					<input type="text" name="u_name" id="username"
+						class="form-control" placeholder="Username" required=""
+						autofocus="" /> <input type="password" name="pwrd" id="pwrd"
+						class="form-control" placeholder="Password" required="" />
+						
+					<input class="form-control" type="test" placeholder="Address" id = "address" name = "address"/> 
+
+					<button class="btn btn-success btn-block" type="submit" id="submit"
+						name="attemptRegister" value="Register">Register</button>
+					<c:set var="attemptRegister" scope="session" value="true" />
+				</form>
+
+			</div>
+		</c:otherwise>
+	</c:choose>
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 offset-1 col-sm-2">
+					<h5>Links</h5>
+					<ul class="list-unstyled">
+						<li><a href="Form">Home</a></li>
+
+						<li><a href="Login">Login</a></li>
+						<li><a href="Register">Register</a></li>
+					</ul>
+				</div>
+				<div class="col-6 col-sm-5">
+					<h5>Our Address</h5>
+					<address>
+						Eaton Center<br /> Toronto<br /> Contact: +852 1234 5678<br />
+						Email: <a href="mailto:BookStore@book.net">BookStore@book.net</a>
+					</address>
+				</div>
+
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<p>© Copyright 2020 Book Store</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 </body>
-</html>
+	</html>
 </jsp:root>

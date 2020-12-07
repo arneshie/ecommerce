@@ -15,7 +15,7 @@ public class Test {
 		int x = 1;
 		User u = null;
 		try {
-			u = new User("Arneshie", "asdf123");
+			u = new User("Arneshie", "asdf123", x);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

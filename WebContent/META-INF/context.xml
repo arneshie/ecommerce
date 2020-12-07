@@ -2,9 +2,12 @@
 <Context privileged="true" reloadable="true">
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
 	<Manager pathname="" />
-	<Resource name="jdbc/EECS" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
-		type="javax.sql.DataSource"
-		driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
-		url="jdbc:derby:/home/user/workspace/SIS_DB"/>
-	<ResourceLink global="jdbc/EECS" name="jdbc/EECS" type="javax.sql.DataSource" ></ResourceLink>
+	<Resource name="jdbc/EECS"
+		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		type="javax.sql.DataSource" username="qkh78403"
+		password="xjw7hr9chn5vzj^q" initialSize="1" maxActive="5"
+		maxIdle="3" driverClassName="com.ibm.db2.jcc.DB2Driver"
+		url="jdbc:db2://dashdb-txn-sbox-yp-dal09-14.services.dal.bluemix.net:50000/BLUDB" />
+	<ResourceLink global="jdbc/EECS" name="jdbc/EECS"
+		type="javax.sql.DataSource" />
 </Context>

@@ -8,54 +8,169 @@
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 		omit-xml-declaration="true" />
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>	
+	<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 <title>Book Store</title>
-<script type="text/javascript"
-	src="/res/mc.js">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous"></link>
+<link rel="StyleSheet"
+	href="${pageContext.request.contextPath}/res/mc.css" type="text/css"
+	title="cse4413" media="screen, print" />
+<script type="text/javascript" src="/res/mc.js">
 	;
 </script>
 </head>
 <body>
-<c:choose>
-	<c:when test="${loggedIn eq null}">
-	<a href = "Login">Login </a>
-	<a href = "Register">Register</a>
-	</c:when>
-	<c:otherwise>
-	Welcome, ${username}. <br></br> <form name="myForm" action="Logout" method="POST" class="myForm"> 
-	<input type = "submit" id = "submit" name = "signout" value = "Log out"></input>
-	</form>
-	<form name="myForm" action="ViewCart" method="POST" class="myForm"> 
-	<input type = "submit" id = "submit" name = "viewCart" value = "View Cart"></input>
-	</form>
-	</c:otherwise>
+	<header class="jumbotron">
+		<div class="container">
+			<div class="row row-header">
+				<div class="col-12 col-sm-6">
+					<h1>Book Store</h1>
+					<p class="h2 d-none d-sm-block">Welcome ${username}</p>
+				</div>
+			</div>
+		</div>
+	</header>
+	<c:choose>
+		<c:when test="${loggedIn eq null}">
+			<nav class="navbar navbar-dark navbar-expand-sm fixed-top">
+				<div class="container">
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#Navbar">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="Navbar">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item active"><a class="nav-link" href="Form">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="Login">Login</a></li>
+							<li class="nav-item"><a class="nav-link" href="Register">Register</a></li>
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- <a href = "Login">Login </a>
+	<a href = "Register">Register</a> -->
+		</c:when>
+		<c:otherwise>
+	Welcome, ${username}. <br></br>
+			<nav class="navbar navbar-dark navbar-expand-sm fixed-top">
+				<div class="container">
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#Navbar">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="Navbar">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item active"><a class="nav-link" href="Form">Home</a></li>
+							<li class="nav-item"><form name="myForm" action="Logout"
+									method="POST" class="myForm">
+									<input type="submit" id="submit" name="signout" value="Log out"></input>
+								</form></li>
+							<li class="nav-item"><form name="myForm" action="ViewCart"
+									method="POST" class="myForm">
+									<input type="submit" id="submit" name="viewCart"
+										value="View Cart"></input>
+								</form></li>
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+		</c:otherwise>
 	</c:choose>
-	<fieldset>
-		<legend>Books</legend>
-		<form name="myForm" action="BookStore/Item" method="POST" class="myForm">
-			<label>Categories:</label> 
-			<select name = "cat" id = "cat"> 
-			<option value = "scifi"> Science Fiction </option>
-			<option value = "adventure"> Adventure </option>
-			<option value = "nonfic"> Non-fiction </option>
-			<option value = "mystery"> Mystery </option>
-			<option value = "Fiction">Fiction</option>
-			</select><br/> <br/> <br/> 
-			<input type = "submit" id = "submit" name = "cat" value = "go"> </input>
-			
-		</form>
-		
-	</fieldset>
-	<form name = "cartForm" action = "AddCart" method ="GET">
-	<h1>Book Catalogue</h1>
-	<c:forEach var="entry" items="${bookCat}">
-  		<c:out value="${entry.key}"/> 
-  		quantity: 
-  		<input type = "number" id = "${entry.key}" name = "${entry.key}" min = "1"> </input> <br></br>
-	</c:forEach>
-		<input type = "submit" id = "submit" name = "cart" value = "Add to Cart"> </input>
+	<div class="text-center">
+		<fieldset>
+			<legend>Books</legend>
+			<form name="myForm" action="BookStore/Item" method="POST"
+				class="myForm">
+				<label>Categories:</label> <select class="form-control" name="cat" id="cat">
+					<option value="Science Fiction">Science Fiction</option>
+					<option value="Adventure">Adventure</option>
+					<option value="Nonfiction">Non-fiction</option>
+					<option value="Mystery">Mystery</option>
+					<option value="Fiction">Fiction</option>
+				</select><br /> <br /> <br /> <input type="submit" id="submit" name="cat"
+					value="GO"> </input>
+
+			</form>
+
+		</fieldset>
+	</div>
+	<hr/>
+	<form name="cartForm" action="AddCart" method="GET">
+		<h1 class="display-3 text-center">Book Catalogue</h1>
+		<div class="container">
+			<div class="row">
+				<c:forEach var="entry" items="${bookCat}">
+
+
+					<div class="col-sm">
+						<div class="card text-white bg-info mb-3" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">
+
+									Title:
+									<c:out value="${entry.key}" />
+								
+								</h5>
+								quantity: <input type="number" id="${entry.key}"
+									name="${entry.key}" min="1"> </input>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		<div class="text-center">
+			<input type="submit" id="submit" name="cart" value="Add to Cart">
+			</input>
+		</div>
+
 	</form>
+	<br />
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 offset-1 col-sm-2">
+					<h5>Links</h5>
+					<ul class="list-unstyled">
+						<li><a href="Form">Home</a></li>
+
+						<li><a href="Login">Login</a></li>
+						<li><a href="Register">Register</a></li>
+					</ul>
+				</div>
+				<div class="col-6 col-sm-5">
+					<h5>Our Address</h5>
+					<address>
+						Eaton Center<br /> Toronto<br /> Contact: +852 1234 5678<br />
+						Email: <a href="mailto:BookStore@book.net">BookStore@book.net</a>
+					</address>
+				</div>
+
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<p>© Copyright 2020 Book Store</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 </body>
 	</html>
 </jsp:root>

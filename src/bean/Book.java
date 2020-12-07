@@ -11,6 +11,7 @@ public class Book {
 		reviews = new ArrayList<>();
 		genre = g;
 		title = t;
+		
 	}
 
 
